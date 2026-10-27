@@ -1,3 +1,5 @@
+using AppProductos.Common;
+
 namespace AppProductos.Models;
 
 public class LogError
@@ -9,4 +11,5 @@ public class LogError
     public string? Ruta { get; set; }
     public string? MetodoHttp { get; set; }
     public int? IdUsuario { get; set; }
+    public string Origen { get; set; } = OrigenLog.Api;   // "API" o "App"
 }

@@ -180,6 +180,7 @@ public class AppDbContext : DbContext
             e.Property(l => l.Mensaje).HasMaxLength(2000).IsRequired();
             e.Property(l => l.Ruta).HasMaxLength(300);
             e.Property(l => l.MetodoHttp).HasMaxLength(10);
+            e.Property(l => l.Origen).HasMaxLength(10).IsRequired().HasDefaultValue(OrigenLog.Api);
             e.HasIndex(l => l.Fecha);
         });
 
