@@ -1,3 +1,4 @@
+using AppProductos.Common;
 using AppProductos.Components;
 using AppProductos.Data;
 using AppProductos.Middleware;
@@ -27,6 +28,12 @@ builder.Services.AddControllers()
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<AuditoriaService>();
 builder.Services.AddSingleton<ImagenService>();
+
+// Reportes PDF (QuestPDF) y envío por mail (MailKit)
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
+builder.Services.AddScoped<ReporteService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 // Errores no controlados -> tabla LogErrores + respuesta JSON
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
