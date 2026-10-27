@@ -1,4 +1,4 @@
-﻿namespace AppProductos.Models;
+namespace AppProductos.Models;
 
 public class Proveedor
 {
@@ -9,5 +9,5 @@ public class Proveedor
     public string? Email { get; set; }
     public string? Direccion { get; set; }
 
-    public ICollection<IngresoProducto> Ingresos { get; set; } = new List<IngresoProducto>();
+    public ICollection<Ingreso> Ingresos { get; set; } = new List<Ingreso>();
 }

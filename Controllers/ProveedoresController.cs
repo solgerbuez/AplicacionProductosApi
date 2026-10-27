@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AppProductos.Data;
@@ -10,7 +10,7 @@ namespace AppProductos.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
+[Authorize(Roles = Roles.Staff)]
 public class ProveedoresController : ControllerBase
 {
     private readonly AppDbContext _context;

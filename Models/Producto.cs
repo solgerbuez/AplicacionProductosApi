@@ -1,4 +1,4 @@
-﻿namespace AppProductos.Models;
+namespace AppProductos.Models;
 
 public class Producto
 {
@@ -7,12 +7,13 @@ public class Producto
     public string? Descripcion { get; set; }
     public decimal Precio { get; set; }
     public int Stock { get; set; }
+    public int StockMinimo { get; set; }
     public int IdCategoria { get; set; }
-    public string? ImagenUrl { get; set; }
     public bool Activo { get; set; } = true;
     public DateTime FechaCreacion { get; set; } = DateTime.Now;
 
     public Categoria? Categoria { get; set; }
-    public ICollection<IngresoProducto> Ingresos { get; set; } = new List<IngresoProducto>();
-    public ICollection<SalidaProducto> Salidas { get; set; } = new List<SalidaProducto>();
+    public ICollection<ProductoImagen> Imagenes { get; set; } = new List<ProductoImagen>();
+    public ICollection<DetalleVenta> DetallesVenta { get; set; } = new List<DetalleVenta>();
+    public ICollection<DetalleIngreso> DetallesIngreso { get; set; } = new List<DetalleIngreso>();
 }

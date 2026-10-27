@@ -1,4 +1,6 @@
-﻿namespace AppProductos.Dtos;
+using System.ComponentModel.DataAnnotations;
+
+namespace AppProductos.Dtos;
 
 public class UsuarioDto
 {
@@ -7,19 +9,26 @@ public class UsuarioDto
     public string Rol { get; set; } = string.Empty;
     public string? Email { get; set; }
     public bool Activo { get; set; }
+    public DateTime FechaAlta { get; set; }
 }
 
 public class UsuarioCreateDto
 {
-    public string Username { get; set; } = string.Empty;
-    public string Password { get; set; } = string.Empty;
-    public string Rol { get; set; } = "Operador";
-    public string? Email { get; set; }
+    [Required, StringLength(50, MinimumLength = 3)] public string Username { get; set; } = string.Empty;
+    [Required, StringLength(100, MinimumLength = 6)] public string Password { get; set; } = string.Empty;
+    [Required] public string Rol { get; set; } = "Operador";   // Admin | Operador | Cliente
+    [EmailAddress] public string? Email { get; set; }
 }
 
 public class UsuarioUpdateDto
 {
-    public string Rol { get; set; } = string.Empty;
-    public string? Email { get; set; }
+    [Required] public string Rol { get; set; } = string.Empty;
+    [EmailAddress] public string? Email { get; set; }
     public bool Activo { get; set; }
+}
+
+public class RolDto
+{
+    public int IdRol { get; set; }
+    public string Nombre { get; set; } = string.Empty;
 }

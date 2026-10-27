@@ -1,9 +1,12 @@
 using AppProductos.Components;
 using AppProductos.Data;
+using AppProductos.Middleware;
+using AppProductos.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +16,21 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(o =>
+    {
+        // Los enums (EstadoVenta, EstadoPago) viajan como texto: "Pendiente", "Pagada"...
+        o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<AuditoriaService>();
+builder.Services.AddSingleton<ImagenService>();
+
+// Errores no controlados -> tabla LogErrores + respuesta JSON
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -49,6 +66,9 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+// Va primero para atrapar errores de todo el pipeline
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -56,7 +76,6 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
