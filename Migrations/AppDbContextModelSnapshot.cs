@@ -264,6 +264,13 @@ namespace AppProductos.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
+                    b.Property<string>("Origen")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
+                        .HasDefaultValue("API");
+
                     b.Property<string>("Ruta")
                         .HasMaxLength(300)
                         .HasColumnType("nvarchar(300)");
