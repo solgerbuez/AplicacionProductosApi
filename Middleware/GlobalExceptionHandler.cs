@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using AppProductos.Common;
 using AppProductos.Data;
 using AppProductos.Models;
 
@@ -42,7 +43,8 @@ public class GlobalExceptionHandler : IExceptionHandler
                 Excepcion = exception.ToString(),
                 Ruta = Recortar(httpContext.Request.Path + httpContext.Request.QueryString, 300),
                 MetodoHttp = httpContext.Request.Method,
-                IdUsuario = int.TryParse(idUsuarioStr, out var id) ? id : null
+                IdUsuario = int.TryParse(idUsuarioStr, out var id) ? id : null,
+                Origen = OrigenLog.Api
             };
             db.LogErrores.Add(log);
             await db.SaveChangesAsync(cancellationToken);

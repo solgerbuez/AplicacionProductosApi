@@ -33,9 +33,11 @@ public class AuditoriaController : ControllerBase
     }
 
     [HttpGet("errores")]
-    public async Task<ActionResult<PagedResult<LogError>>> GetErrores(int page = 1, int pageSize = 20, DateTime? desde = null, DateTime? hasta = null)
+    public async Task<ActionResult<PagedResult<LogError>>> GetErrores(
+        int page = 1, int pageSize = 20, DateTime? desde = null, DateTime? hasta = null, string? origen = null)
     {
         var query = _context.LogErrores.AsNoTracking().AsQueryable();
+        if (!string.IsNullOrWhiteSpace(origen)) query = query.Where(l => l.Origen == origen);
         if (desde.HasValue) query = query.Where(l => l.Fecha >= desde.Value.Date);
         if (hasta.HasValue) query = query.Where(l => l.Fecha < hasta.Value.Date.AddDays(1));
 
